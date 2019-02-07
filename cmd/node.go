@@ -39,4 +39,5 @@ var nodeCmd = &cobra.Command{
 
 func init() {
 	configFlags.AddFlags(nodeCmd.Flags())
+	rootCmd.AddCommand(nodeCmd)
 }

@@ -31,10 +31,6 @@ var rootCmd = &cobra.Command{
 	SilenceErrors: true,
 }
 
-func init() {
-	rootCmd.AddCommand(nodeCmd)
-}
-
 // Execute run the root command
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {

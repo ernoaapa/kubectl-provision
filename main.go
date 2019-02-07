@@ -18,6 +18,8 @@ import (
 	"time"
 
 	"github.com/ernoaapa/kubectl-bootstrap/cmd"
+	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
+	_ "k8s.io/client-go/plugin/pkg/client/auth/oidc"
 )
 
 func main() {
