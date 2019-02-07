@@ -1,0 +1,4 @@
+dist
+
+# built binary
+kubectl-bootstrap

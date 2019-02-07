@@ -1,0 +1,29 @@
+builds:
+  - binary: kubectl-bootstrap
+    env:
+      - CGO_ENABLED=0
+    goarch:
+      - amd64
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
+brew:
+  name: bootstrap
+  github:
+    owner: ernoaapa
+    name: homebrew-kubectl-plugins
+  homepage: "https://github.com/ernoaapa/kubectl-bootstrap"
+  description: "Kubectl plugin to bootstrap node"
+  test: |
+    system "#{bin}/kubectl-bootstrap --version"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
