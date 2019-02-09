@@ -16,9 +16,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/ernoaapa/kubectl-bootstrap/pkg/kube"
 	"github.com/spf13/cobra"
-	"k8s.io/client-go/rest"
 )
 
 // tokenCmd represents the token command
@@ -27,16 +25,8 @@ var tokenCmd = &cobra.Command{
 	Short: "return node bootstrap token",
 	Long: `New node needs bootstrap token to register to Kubernetes cluster.
 'token' command resolves and returns the token.`,
-	RunE: func(cmd *cobra.Command, args []string) error {
-		config, err := configFlags.ToRESTConfig()
-		if err != nil {
-			return err
-		}
-		rest.SetKubernetesDefaults(config)
-
-		c := kube.NewClient(config)
-
-		token, err := c.FindBootstrapToken()
+	RunE: func(_ *cobra.Command, args []string) error {
+		token, err := getBootstrapToken()
 		if err != nil {
 			return err
 		}
@@ -51,6 +41,8 @@ var tokenCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(tokenCmd)
 	configFlags.AddFlags(tokenCmd.Flags())
+	addBootstrapOptions(tokenCmd)
+
+	rootCmd.AddCommand(tokenCmd)
 }

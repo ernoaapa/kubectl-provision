@@ -14,23 +14,27 @@
 package cmd
 
 import (
-	"k8s.io/cli-runtime/pkg/genericclioptions"
+	"errors"
 
+	"github.com/ernoaapa/kubectl-bootstrap/pkg/bootstrap"
 	"github.com/spf13/cobra"
 )
 
-type runOptions struct {
-}
-
-var configFlags = genericclioptions.NewConfigFlags(false)
-var opt = runOptions{}
-
 var nodeCmd = &cobra.Command{
-	Use:   "node",
+	Use:   "node ADDRESS",
 	Short: "Install and configures node for Kubernetes",
 	Long:  `bootstrap node connects to existing server and bootstrap it for Kubernetes`,
-	RunE: func(cmd *cobra.Command, args []string) error {
-		return nil
+	RunE: func(_ *cobra.Command, args []string) error {
+		if len(args) < 1 {
+			return errors.New("ADDRESS is required for node bootstrap")
+		}
+
+		token, err := getBootstrapToken()
+		if err != nil {
+			return err
+		}
+
+		return bootstrap.Node(args, token)
 	},
 	// We handle errors at root.go
 	SilenceUsage:  true,
@@ -39,5 +43,7 @@ var nodeCmd = &cobra.Command{
 
 func init() {
 	configFlags.AddFlags(nodeCmd.Flags())
+	addBootstrapOptions(nodeCmd)
+
 	rootCmd.AddCommand(nodeCmd)
 }

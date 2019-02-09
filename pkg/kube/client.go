@@ -3,7 +3,6 @@ package kube
 import (
 	"time"
 
-	"github.com/pkg/errors"
 	apiv1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -32,26 +31,18 @@ func (c *Client) getClient(namespace string) (v1.SecretInterface, error) {
 	return clientset.CoreV1().Secrets(namespace), nil
 }
 
-// FindBootstrapToken find the bootstrap token from current cluster
-func (c *Client) FindBootstrapToken() (apiv1.Secret, error) {
+// FindBootstrapTokens find the bootstrap token from current cluster
+func (c *Client) FindBootstrapTokens() ([]apiv1.Secret, error) {
 	client, err := c.getClient("kube-system")
 	if err != nil {
-		return apiv1.Secret{}, err
+		return []apiv1.Secret{}, err
 	}
 
 	list, err := client.List(metav1.ListOptions{
 		FieldSelector: "type=bootstrap.kubernetes.io/token",
 	})
 	if err != nil {
-		return apiv1.Secret{}, err
+		return []apiv1.Secret{}, err
 	}
-
-	switch len(list.Items) {
-	case 0:
-		return apiv1.Secret{}, errors.Wrap(ErrNotFound, "Bootstrap token Secret")
-	case 1:
-		return list.Items[0], nil
-	default:
-		return apiv1.Secret{}, ErrWithMessagef(ErrTooManyFound, "Bootstrap token Secrets (count %d)", len(list.Items))
-	}
+	return list.Items, nil
 }
