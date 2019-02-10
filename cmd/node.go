@@ -34,7 +34,17 @@ var nodeCmd = &cobra.Command{
 			return err
 		}
 
-		return bootstrap.Node(args, token)
+		host, pins, err := getServer()
+		if err != nil {
+			return err
+		}
+
+		return bootstrap.NewInstaller(
+			host,
+			token,
+			pins,
+			bootstrap.NewSSHExecutor(args),
+		).Install()
 	},
 	// We handle errors at root.go
 	SilenceUsage:  true,

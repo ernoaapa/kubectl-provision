@@ -23,14 +23,14 @@ func TestInstall(t *testing.T) {
 		},
 	}
 
-	executorMock := &mocks.Executor{}
-	i := Installer{
-		executor: executorMock,
-	}
-
 	for name, test := range tests {
 		t.Logf("Running test case: %s", name)
-		executorMock.On("Exec", mock.Anything).Return(test.err).Once()
+		executorMock := &mocks.Executor{}
+		i := Installer{
+			executor: executorMock,
+		}
+
+		executorMock.On("Exec", mock.Anything).Return(test.err)
 
 		err := i.Install()
 
