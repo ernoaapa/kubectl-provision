@@ -1,23 +1,17 @@
-kubectl (Kubernetes CLI) plugin which bootstraps node.
+# `kubectl bootstrap` (experimental)
+Experimental `kubectl` (Kubernetes CLI) plugin which installs and bootstraps an node with `kubeadm` from zero.
 
-It creates temporary _Pod_ and synchronises your local files to the desired container and executes any command.
+## Why
+It's best practice to control servers with configuration management tool, but sometimes you just want to connect an existing server to Kubernetes cluster easily.
+`kubeadm` do the heavy job for joining the node to the cluster, but before that, you need to install container runtime, kubelet and kubeadm.
 
-### Why
-It's best practice to control servers with configuration management tool, but sometimes you just want to connect existing server to Kubernetes cluster easily. `kubectl bootstrap node` install required components, get bootstrap token and connects the node to the target cluster.
-
-### Other similar
-#### [kubeadm](https://telepresence.io)
-
-## How it works
-`kubectl bootstrap node` connects to the target server over SSH and uses local package manager to install `kubelet` and configures the `kubelet` to bootstrap itself with bootstrap token.
+### How it works
+ `kubectl bootstrap node` will:
+1. Install [required packages](https://kubernetes.io/docs/setup/independent/install-kubeadm/) (runtime, kubelet, kubeadm)
+2. Get Kubernetes [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/)
+3. Joins the node to the target cluster with [kubeadm](https://kubernetes.io/docs/setup/independent/kubelet-integration/#workflow-when-using-kubeadm-join).
 
 ## Install
-
-### With Krew (Kubernetes plugin manager)
-```shell
-krew update
-krew install bootstrap
-```
 
 ### MacOS with Brew
 ```shell
@@ -39,17 +33,26 @@ kubectl bootstrap node --help
 - Golang v1.11
 - [Go mod enabled](https://github.com/golang/go/wiki/Modules)
 
-### Build and run locally
-```shell
-go run ./main.go node -h
+### Build and run against Vagrant
+#### Prerequisites
+- [Vagrant](https://vagrantup.com)
+- Existing Kubernetes cluster (e.g. [minikube](https://kubernetes.io/docs/setup/minikube/)
 
-# Syncs your local files to Kubernetes and list the files
+You need to have following flags in your Kubernetes master to be able to join with bootstrap tokens
+```shell
+# kube-apiserver
+--enable-bootstrap-token-auth=true
+
+# kube-controller-manager
+--controllers=*,bootstrapsigner,tokencleaner
 ```
 
-### Build and install locally
+Start the test node
 ```shell
-go install .
+vagrant up
+```
 
-# Now you can use `kubectl`
-kubectl bootstrap --help
+Install and join the Vagrant VM to your Kubernetes cluster 
+```shell
+go run ./main.go node -- -F =(vagrant ssh-config) node-1
 ```
