@@ -5,7 +5,7 @@ import (
 	"encoding/base64"
 	"net/url"
 
-	"github.com/ernoaapa/kubectl-bootstrap/pkg/cmd"
+	"github.com/ernoaapa/kubectl-provision/pkg/cmd"
 	"github.com/kubernetes/kubernetes/cmd/kubeadm/app/util/pubkeypin"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -14,14 +14,14 @@ import (
 	clientcertutil "k8s.io/client-go/util/cert"
 )
 
-type bootstrapOptions struct {
+type provisionOptions struct {
 	BootstrapToken string
 }
 
 var configFlags = genericclioptions.NewConfigFlags(false)
-var opt = bootstrapOptions{}
+var opt = provisionOptions{}
 
-func addBootstrapOptions(cmd *cobra.Command) {
+func addProvisionOptions(cmd *cobra.Command) {
 	cmd.Flags().StringVar(&opt.BootstrapToken, "bootstrap-token", opt.BootstrapToken, "The bootstrap token to use, rather than resolving from Kubernetes cluster.")
 }
 

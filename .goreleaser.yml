@@ -1,5 +1,5 @@
 builds:
-  - binary: kubectl-bootstrap
+  - binary: kubectl-provision
     env:
       - CGO_ENABLED=0
     goarch:
@@ -12,14 +12,14 @@ snapshot:
   name_template: "{{ .Tag }}-next"
 
 brew:
-  name: bootstrap
+  name: provision
   github:
     owner: ernoaapa
     name: homebrew-kubectl-plugins
-  homepage: "https://github.com/ernoaapa/kubectl-bootstrap"
-  description: "Kubectl plugin to bootstrap node"
+  homepage: "https://github.com/ernoaapa/kubectl-provision"
+  description: "Kubectl plugin to provision a node"
   test: |
-    system "#{bin}/kubectl-bootstrap --version"
+    system "#{bin}/kubectl-provision --version"
 
 changelog:
   sort: asc

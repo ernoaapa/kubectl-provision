@@ -1,4 +1,4 @@
-module github.com/ernoaapa/kubectl-bootstrap
+module github.com/ernoaapa/kubectl-provision
 
 require (
 	github.com/docker/docker v1.13.1 // indirect

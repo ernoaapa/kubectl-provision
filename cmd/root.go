@@ -21,7 +21,7 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "bootstrap",
+	Use:   "provision",
 	Short: "Install and configures node for Kubernetes",
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()

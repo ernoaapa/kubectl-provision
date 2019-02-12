@@ -1,10 +1,10 @@
-package bootstrap
+package provision
 
 import (
 	"errors"
 	"testing"
 
-	"github.com/ernoaapa/kubectl-bootstrap/pkg/bootstrap/mocks"
+	"github.com/ernoaapa/kubectl-provision/pkg/provision/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )

@@ -1,6 +1,6 @@
 dist
 
 # built binary
-kubectl-bootstrap
+kubectl-provision
 
 *.log

@@ -42,7 +42,7 @@ var tokenCmd = &cobra.Command{
 
 func init() {
 	configFlags.AddFlags(tokenCmd.Flags())
-	addBootstrapOptions(tokenCmd)
+	addProvisionOptions(tokenCmd)
 
 	rootCmd.AddCommand(tokenCmd)
 }

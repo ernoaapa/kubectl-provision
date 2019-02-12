@@ -5,7 +5,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/ernoaapa/kubectl-bootstrap/pkg/kube"
+	"github.com/ernoaapa/kubectl-provision/pkg/kube"
 	"k8s.io/client-go/rest"
 )
 

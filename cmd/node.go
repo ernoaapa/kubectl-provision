@@ -16,17 +16,17 @@ package cmd
 import (
 	"errors"
 
-	"github.com/ernoaapa/kubectl-bootstrap/pkg/bootstrap"
+	"github.com/ernoaapa/kubectl-provision/pkg/provision"
 	"github.com/spf13/cobra"
 )
 
 var nodeCmd = &cobra.Command{
 	Use:   "node ADDRESS",
 	Short: "Install and configures node for Kubernetes",
-	Long:  `bootstrap node connects to existing server and bootstrap it for Kubernetes`,
+	Long:  `provision node connects to existing server and install and joins it to Kubernetes cluster`,
 	RunE: func(_ *cobra.Command, args []string) error {
 		if len(args) < 1 {
-			return errors.New("ADDRESS is required for node bootstrap")
+			return errors.New("ADDRESS is required for node provision")
 		}
 
 		token, err := getBootstrapToken()
@@ -39,11 +39,11 @@ var nodeCmd = &cobra.Command{
 			return err
 		}
 
-		return bootstrap.NewInstaller(
+		return provision.NewInstaller(
 			host,
 			token,
 			pins,
-			bootstrap.NewSSHExecutor(args),
+			provision.NewSSHExecutor(args),
 		).Install()
 	},
 	// We handle errors at root.go
@@ -53,7 +53,7 @@ var nodeCmd = &cobra.Command{
 
 func init() {
 	configFlags.AddFlags(nodeCmd.Flags())
-	addBootstrapOptions(nodeCmd)
+	addProvisionOptions(nodeCmd)
 
 	rootCmd.AddCommand(nodeCmd)
 }

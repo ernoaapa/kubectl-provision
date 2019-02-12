@@ -1,12 +1,12 @@
-# `kubectl bootstrap` (experimental)
-Experimental `kubectl` (Kubernetes CLI) plugin which installs and bootstraps an node with `kubeadm` from zero.
+# `kubectl provision` (experimental)
+Experimental `kubectl` (Kubernetes CLI) plugin which provisions an node with `kubeadm` from zero.
 
 ## Why
-It's best practice to control servers with configuration management tool, but sometimes you just want to connect an existing server to Kubernetes cluster easily.
+It's best practice to manage server configurations with some configuration management tool (Ansible, etc.), but sometimes you just want to connect an existing server to Kubernetes cluster quickly and easily.
 `kubeadm` do the heavy job for joining the node to the cluster, but before that, you need to install container runtime, kubelet and kubeadm.
 
 ### How it works
- `kubectl bootstrap node` will:
+ `kubectl provision node` will:
 1. Install [required packages](https://kubernetes.io/docs/setup/independent/install-kubeadm/) (runtime, kubelet, kubeadm)
 2. Get Kubernetes [bootstrap token](https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/)
 3. Joins the node to the target cluster with [kubeadm](https://kubernetes.io/docs/setup/independent/kubelet-integration/#workflow-when-using-kubeadm-join).
@@ -15,17 +15,17 @@ It's best practice to control servers with configuration management tool, but so
 
 ### MacOS with Brew
 ```shell
-brew install rsync ernoaapa/kubectl-plugins/bootstrap
+brew install rsync ernoaapa/kubectl-plugins/provision
 ```
 ### Linux / MacOS without Brew
 1. Install rsync with your preferred package manager
-2. Download `kubectl-bootstrap` binary from [releases](https://github.com/ernoaapa/kubectl-bootstrap/releases)
+2. Download `kubectl-provision` binary from [releases](https://github.com/ernoaapa/kubectl-provision/releases)
 3. Add it to your `PATH`
 
 ## Usage
 When the plugin binary is found from `PATH` you can just execute it through `kubectl` CLI
 ```shell
-kubectl bootstrap node --help
+kubectl provision node --help
 ```
 
 ## Development

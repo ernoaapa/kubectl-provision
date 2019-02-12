@@ -3,7 +3,7 @@ defaults: &defaults
     - image: golang:1.11.4
   environment:
     GO111MODULE: "on"
-  working_directory: /go/src/github.com/ernoaapa/kubectl-bootstrap
+  working_directory: /go/src/github.com/ernoaapa/kubectl-provision
 
 version: 2
 jobs:
